@@ -1,0 +1,32 @@
+{"lexicon" 1,
+ "id" "com.etzhayyim.seigyo.scadaProjectAttestation",
+ "description"
+ "CID attestation of an L2 SCADA project file (FUXA / Rapid SCADA / OpenSCADA — open-source only per the commercial vendor prohibition) after Charter Rider §2 audit. A site running an unattested project is flagged like a runtime-hash mismatch. Per ADR-2606111000 §1 + §2 + §6.",
+ "defs"
+ {"main"
+  {"type" "record",
+   "record"
+   {"type" "object",
+    "properties"
+    {"projectCid" {"type" "string"},
+     "charterRiderAuditResult"
+     {"type" "string",
+      "knownValues" ["pass" "pass-with-conditions" "fail"]},
+     "scadaStack"
+     {"type" "string",
+      "knownValues" ["fuxa" "rapid-scada" "openscada"]},
+     "councilAttestationRef" {"type" "string"},
+     "engineerDid" {"type" "string"},
+     "charterRiderAuditCid" {"type" "string"},
+     "supersedesProjectVersion" {"type" "integer"},
+     "siteId" {"type" "string"},
+     "attestedAt" {"type" "string"},
+     "projectVersion" {"type" "integer"}},
+    "required"
+    ["siteId"
+     "scadaStack"
+     "projectVersion"
+     "projectCid"
+     "charterRiderAuditResult"
+     "engineerDid"
+     "attestedAt"]}}}}

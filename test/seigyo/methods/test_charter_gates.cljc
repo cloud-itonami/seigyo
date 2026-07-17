@@ -2,21 +2,20 @@
   "seigyo — structural charter/safety-gate conformance tests. Substrate-native Clojure (ADR-2606160842); 1:1 port of pruned test_charter_gates.py."
   (:require [clojure.test :refer [deftest is run-tests]]
             [clojure.string :as str]
-            [cheshire.core :as json]))
+            [clojure.edn :as edn]))
 
 (def ^:private here (.getParentFile (java.io.File. ^String *file*)))
-(def ^:private actor-dir (.getParentFile here))
-(def ^:private actor-name (.getName actor-dir))
-(def ^:private root (.. actor-dir getParentFile getParentFile))
-(def ^:private lexdir (java.io.File. root (str "00-contracts/lexicons/com/etzhayyim/" actor-name)))
+(def ^:private test-dir (.getParentFile here))
+(def ^:private root (.. test-dir getParentFile getParentFile))
+(def ^:private lexdir (java.io.File. root "lex"))
 
 (def ^:private OPEN-SCADA #{"fuxa" "rapid-scada" "openscada"})
 (def ^:private COMMERCIAL-VENDORS
   ["siemens" "honeywell" "yokogawa" "emerson" "rockwell" "abb"
    "schneider" "mitsubishi" "aveva" "ignition" "wonderware" "deltav"])
 
-(defn- load-lex [name] (json/parse-string (slurp (java.io.File. lexdir name))))
-(defn- lex-files [] (filter #(.endsWith (.getName ^java.io.File %) ".json") (seq (.listFiles lexdir))))
+(defn- load-lex [name] (edn/read-string (slurp (java.io.File. lexdir name))))
+(defn- lex-files [] (filter #(.endsWith (.getName ^java.io.File %) ".edn") (seq (.listFiles lexdir))))
 
 (defn- required-union [doc]
   (let [acc (atom #{})]
@@ -46,18 +45,18 @@
 
 ;; ── no commercial DCS/SCADA — only the open stack is representable ──
 (deftest test-scada-stack-is-open-only
-  (is (= (known (load-lex "scadaProjectAttestation.json") "scadaStack") OPEN-SCADA)))
+  (is (= (known (load-lex "scadaProjectAttestation.edn") "scadaStack") OPEN-SCADA)))
 
 (deftest test-no-commercial-vendor-in-any-enum-value
   (doseq [f (lex-files)]
-    (let [vals (all-enum-values (json/parse-string (slurp f)))]
+    (let [vals (all-enum-values (edn/read-string (slurp f)))]
       (doseq [vendor COMMERCIAL-VENDORS]
         (is (not (some #(str/includes? % vendor) vals))
             (str (.getName ^java.io.File f) ": commercial vendor '" vendor "' must not be a representable enum value"))))))
 
 ;; ── safety interlock: physically verified, hardwired safety functions ──
 (deftest test-interlock-physically-verified-required
-  (let [doc (load-lex "interlockVerificationRecord.json")
+  (let [doc (load-lex "interlockVerificationRecord.edn")
         req (required-union doc)]
     (is (contains? req "physicallyVerified"))
     (let [types (known doc "interlockType")]
@@ -66,23 +65,23 @@
 
 ;; ── IO trust isolation ──
 (deftest test-io-trust-class-isolates-safety
-  (is (= (known (load-lex "ioPointRegistry.json") "trustClass")
+  (is (= (known (load-lex "ioPointRegistry.edn") "trustClass")
          #{"attested" "untrusted-external" "safety-mirror-readonly"})))
 
 ;; ── attestation: every PLC program Council-attested + content-addressed ──
 (deftest test-plc-program-attested-and-addressed
-  (let [req (required-union (load-lex "plcProgramAttestation.json"))]
+  (let [req (required-union (load-lex "plcProgramAttestation.edn"))]
     (doseq [field ["councilAttestationRef" "programCid" "stSourceCid"]]
       (is (contains? req field) (str "attestation: plcProgramAttestation must require " field)))))
 
 (deftest test-runtime-attestation-matches-attested-program
-  (let [req (required-union (load-lex "runtimeAttestation.json"))]
+  (let [req (required-union (load-lex "runtimeAttestation.edn"))]
     (doseq [field ["loadedProgramHash" "attestedProgramCid" "match"]]
       (is (contains? req field) (str "attestation: runtimeAttestation must require " field)))))
 
 ;; ── advisory-only actuation: bounded envelope ──
 (deftest test-setpoint-envelope-is-bounded-with-rate-limit
-  (let [doc (load-lex "setpointEnvelope.json")
+  (let [doc (load-lex "setpointEnvelope.edn")
         req (required-union doc)
         pkeys (all-property-keys doc)]
     (doseq [field ["minMilli" "maxMilli" "maxRateOfChangeMilli"]]
@@ -91,4 +90,4 @@
 
 ;; ── G6 surveillance: telemetry declares person-attributability ──
 (deftest test-telemetry-declares-person-attributability
-  (is (contains? (required-union (load-lex "telemetryAggregateRecord.json")) "personAttributable")))
+  (is (contains? (required-union (load-lex "telemetryAggregateRecord.edn")) "personAttributable")))

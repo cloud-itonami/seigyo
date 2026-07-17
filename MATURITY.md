@@ -11,7 +11,7 @@ no LLM/network in the safety path, actuation only via attested setpoint envelope
 | Lexicons | ✅ 9 under `com.etzhayyim.seigyo.*` (ioPointRegistry / plcProgramAttestation / runtimeAttestation / scadaProjectAttestation / setpointEnvelope / interlockVerificationRecord / alarmEventRecord / telemetryAggregateRecord / silenSeigyoReview) |
 | Cells | 🟡 5 path-reserved in `40-engine/.../cells/seigyo_*` (R0 import-time RuntimeError) |
 | Manifest | ✅ present |
-| Tests | ✅ `methods/test_charter_gates.py` — **8 tests, green** (added 2026-06-16; previously ZERO tests anywhere) — pins the safety + no-commercial-DCS + attestation gates; `./run_tests.sh` |
+| Tests | ✅ **9 tests / 134 assertions, green** — pins the safety, no-commercial-DCS, attestation, and repository-contract gates; `bb -cp src:test run_tests.clj` |
 | Methods | ⛔ no offline engine yet (R1 benchtop loop, ADR-2606111100) |
 
 ## Charter / safety gates pinned by the test

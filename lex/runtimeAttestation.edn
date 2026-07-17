@@ -1,0 +1,38 @@
+{"lexicon" 1,
+ "id" "com.etzhayyim.seigyo.runtimeAttestation",
+ "description"
+ "Controller heartbeat comparing the hash of the loaded PLC program against its attested programCid, re-verified on every controller restart and daily heartbeat. A mismatch freezes L3 recipe dispatch to that controller until resolved. Per ADR-2606111000 §4.",
+ "defs"
+ {"main"
+  {"type" "record",
+   "record"
+   {"type" "object",
+    "properties"
+    {"resolutionNote"
+     {"type" "string",
+      "description"
+      "on recovery from a mismatch: what happened (incl. deliberate drills, which MUST be recorded as drills per ADR-2606111100 §5)"},
+     "heartbeatAt" {"type" "string"},
+     "controllerId" {"type" "string"},
+     "attestedProgramCid" {"type" "string"},
+     "match" {"type" "boolean"},
+     "trigger"
+     {"type" "string",
+      "knownValues" ["restart" "daily-heartbeat" "manual" "drill"]},
+     "siteId" {"type" "string"},
+     "envelopeClampCount"
+     {"type" "integer",
+      "description" "cumulative clamp counter sampled at heartbeat"},
+     "loadedProgramHash" {"type" "string"},
+     "dispatchFrozen"
+     {"type" "boolean",
+      "description"
+      "true when match=false and L3 dispatch is refused"}},
+    "required"
+    ["siteId"
+     "controllerId"
+     "heartbeatAt"
+     "trigger"
+     "loadedProgramHash"
+     "attestedProgramCid"
+     "match"]}}}}

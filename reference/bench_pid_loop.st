@@ -14,7 +14,7 @@
   The interlock inputs below are READ-ONLY status mirrors for logging.
 
   ENVELOPE (§3.4): the constants in the ENVELOPE block are compiled into
-  this program and mirrored in bench_pid_loop.envelope.json. A setpoint
+  this program and mirrored in canonical bench_pid_loop.envelope.edn. A setpoint
   request outside the envelope is clamped HERE, regardless of what the
   OPC UA / L3 layer requested. Changing any ENVELOPE constant is a new
   program version requiring re-attestation.

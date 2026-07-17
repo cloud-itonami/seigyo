@@ -1,4 +1,4 @@
-# 20-actors/seigyo — CLAUDE.md
+# com-etzhayyim-seigyo — CLAUDE.md
 
 ## Identity
 
