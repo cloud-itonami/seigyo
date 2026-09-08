@@ -1,7 +1,7 @@
 (ns seigyo.methods.test-charter-gates
   "seigyo — structural charter/safety-gate conformance tests. Substrate-native Clojure (ADR-2606160842); 1:1 port of pruned test_charter_gates.py."
   (:require [clojure.test :refer [deftest is run-tests]]
-            [clojure.string :as str]
+            [kotoba.lang.text :as str]
             [clojure.edn :as edn]))
 
 (def ^:private here (.getParentFile (java.io.File. ^String *file*)))
@@ -33,7 +33,7 @@
 
 (defn- all-enum-values [doc]
   (let [acc (atom #{})]
-    (letfn [(walk [x] (cond (map? x) (do (when (sequential? (get x "knownValues")) (swap! acc into (map #(str/lower-case (str %)) (get x "knownValues")))) (doseq [v (vals x)] (walk v)))
+    (letfn [(walk [x] (cond (map? x) (do (when (sequential? (get x "knownValues")) (swap! acc into (map #(str/lower (str %)) (get x "knownValues")))) (doseq [v (vals x)] (walk v)))
                             (sequential? x) (doseq [v x] (walk v))))]
       (walk doc)) @acc))
 
