@@ -1,4 +1,4 @@
-# com-etzhayyim-seigyo — CLAUDE.md
+# com-etzhayyim-seigyo — AGENTS.md
 
 ## Identity
 

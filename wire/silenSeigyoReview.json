@@ -21,7 +21,7 @@
               "vendor-prohibition-audit"
             ]
           },
-          "councilAttestationCount": { "type": "integer", "description": "Lv6+ threshold per ADR-2605192300; bootstrap: PR review approval count per CLAUDE.md operational premise 2026-06-11" },
+          "councilAttestationCount": { "type": "integer", "description": "Lv6+ threshold per ADR-2605192300; bootstrap: PR review approval count per AGENTS.md operational premise 2026-06-11" },
           "councilSeats": { "type": "array", "items": { "type": "string" }, "minItems": 3 },
           "approvedRPhase": { "type": "string", "knownValues": ["R1", "R2", "R3"] },
           "approvedSites": { "type": "array", "items": { "type": "string" } },

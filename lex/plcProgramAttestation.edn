@@ -21,7 +21,7 @@
      "councilAttestationRef"
      {"type" "string",
       "description"
-      "Council attestation reference (bootstrap: PR URL / merge commit per CLAUDE.md operational premise 2026-06-11)"},
+      "Council attestation reference (bootstrap: PR URL / merge commit per AGENTS.md operational premise 2026-06-11)"},
      "envelopeRecordUris"
      {"type" "array",
       "items" {"type" "string"},

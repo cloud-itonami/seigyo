@@ -22,7 +22,7 @@
           "simulationEvidenceCid": { "type": "string", "description": "OpenPLC simulation / static-check evidence bundle" },
           "engineerDid": { "type": "string" },
           "engineerReviewedAt": { "type": "string" },
-          "councilAttestationRef": { "type": "string", "description": "Council attestation reference (bootstrap: PR URL / merge commit per CLAUDE.md operational premise 2026-06-11)" },
+          "councilAttestationRef": { "type": "string", "description": "Council attestation reference (bootstrap: PR URL / merge commit per AGENTS.md operational premise 2026-06-11)" },
           "supersedesProgramVersion": { "type": "integer" }
         },
         "required": ["programId", "programVersion", "siteId", "controllerId", "stSourceCid", "programCid", "envelopeRecordUris", "engineerDid", "councilAttestationRef"]
