@@ -25,7 +25,7 @@
      "councilAttestationCount"
      {"type" "integer",
       "description"
-      "Lv6+ threshold per ADR-2605192300; bootstrap: PR review approval count per CLAUDE.md operational premise 2026-06-11"},
+      "Lv6+ threshold per ADR-2605192300; bootstrap: PR review approval count per AGENTS.md operational premise 2026-06-11"},
      "verdict"
      {"type" "string",
       "knownValues"
